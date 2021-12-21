@@ -26,7 +26,7 @@ export const TenantListItem = ({ tenant, isDescription = false }: Props) => {
         <Grid container md={12} alignItems="center">
           <Grid md={5} sm={6} xs={6} className={classes.userInfo}>
             <UserAvatar name={tenant.name} />
-            <Typography> {tenant.name}</Typography>
+            <Typography data-testid="user_name"> {tenant.name}</Typography>
           </Grid>
           <Grid
             item
@@ -41,6 +41,7 @@ export const TenantListItem = ({ tenant, isDescription = false }: Props) => {
           </Grid>
           <Grid item md={5} sm={3} xs={3}>
             <Typography
+              data-testid="user_status"
               className={classes.status}
               sx={{
                 marginBottom: "10px",
@@ -53,6 +54,7 @@ export const TenantListItem = ({ tenant, isDescription = false }: Props) => {
               {UserStatus.ACTIVE === tenant.status ? "Active" : "Not Active"}
             </Typography>
             <Typography
+              data-testid="user_type"
               className={classes.status}
               sx={{
                 background:
@@ -67,16 +69,22 @@ export const TenantListItem = ({ tenant, isDescription = false }: Props) => {
         </Grid>
         {isDescription && (
           <Grid item md={12}>
-            {tenant.description}
+            <Typography data-testid="user_description">
+              {tenant.description}
+            </Typography>
           </Grid>
         )}
         <Grid container md={12} sx={{ marginTop: "10px" }}>
           <Grid item md={10} sm={10} xs={10}>
-            <Typography>Code: {tenant.code}</Typography>
+            <Typography data-testid="user_code">Code: {tenant.code}</Typography>
           </Grid>
           {!isDescription && (
             <Grid item md={2} sm={2} xs={2}>
-              <Button variant="text" onClick={redirectToProfile}>
+              <Button
+                variant="text"
+                onClick={redirectToProfile}
+                data-testid="more_button"
+              >
                 More
               </Button>
             </Grid>

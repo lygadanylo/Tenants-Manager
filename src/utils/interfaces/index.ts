@@ -5,6 +5,6 @@ export interface Tenant {
   name: string;
   description: string;
   code: string;
-  type: UserType;
-  status: UserStatus;
+  type: UserType | string;
+  status: UserStatus | string;
 }
