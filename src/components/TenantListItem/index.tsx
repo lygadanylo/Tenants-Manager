@@ -1,65 +1,86 @@
-import { Box, Grid, Typography } from "@mui/material";
+import { Box, Grid, Typography, Button } from "@mui/material";
 import useStyles from "./tenatListItemStyles";
-import { Tenant, UserStatus, UserType } from "../../utils";
+import { Tenant, UserStatus, UserType, TENANT_BASE_URL } from "../../utils";
 import { UserAvatar } from "../UserAvatar";
+import { useNavigate } from "react-router-dom";
 
 interface Props {
   tenant: Tenant;
+  isDescription?: boolean;
 }
 
-export const TenantListItem = ({ tenant }: Props) => {
+export const TenantListItem = ({ tenant, isDescription = false }: Props) => {
   const classes = useStyles();
-
-  const statusStyles = {
-    borderRadius: "5px",
-    margin: "5px",
-    padding: "5px",
-  };
+  const navigate = useNavigate();
 
   const activeOrReal = "#01F4AB";
   const notActiveOrDemo = "#F35B04";
 
+  const redirectToProfile = () => {
+    navigate(TENANT_BASE_URL + "/" + tenant.id);
+  };
+
   return (
     <Box className={classes.box}>
-      <Grid container alignItems="center" columns={16}>
-        <Grid container md={2} alignItems="center">
-          <UserAvatar name={tenant.name} />
-          <Typography> {tenant.name}</Typography>
+      <Grid container alignItems="center">
+        <Grid container md={12} alignItems="center">
+          <Grid md={5} sm={6} xs={6} className={classes.userInfo}>
+            <UserAvatar name={tenant.name} />
+            <Typography> {tenant.name}</Typography>
+          </Grid>
+          <Grid
+            item
+            md={2}
+            sm={3}
+            xs={3}
+            justifyContent="center"
+            alignItems="center"
+          >
+            <Typography sx={{ marginBottom: "10px" }}>Status:</Typography>
+            <Typography>Type:</Typography>
+          </Grid>
+          <Grid item md={5} sm={3} xs={3}>
+            <Typography
+              className={classes.status}
+              sx={{
+                marginBottom: "10px",
+                background:
+                  UserStatus.ACTIVE === tenant.status
+                    ? activeOrReal
+                    : notActiveOrDemo,
+              }}
+            >
+              {UserStatus.ACTIVE === tenant.status ? "Active" : "Not Active"}
+            </Typography>
+            <Typography
+              className={classes.status}
+              sx={{
+                background:
+                  UserType.REAL === tenant.type
+                    ? activeOrReal
+                    : notActiveOrDemo,
+              }}
+            >
+              {UserType.REAL === tenant.type ? "Real" : "Demo"}
+            </Typography>
+          </Grid>
         </Grid>
-        <Grid
-          item
-          textAlign="center"
-          md={1}
-          sx={{
-            ...statusStyles,
-            background:
-              UserStatus.ACTIVE === tenant.status
-                ? activeOrReal
-                : notActiveOrDemo,
-          }}
-        >
-          {UserStatus.ACTIVE === tenant.status ? "Active" : "Not Active"}
-        </Grid>
-        <Grid
-          item
-          md={1}
-          textAlign="center"
-          sx={{
-            ...statusStyles,
-            background:
-              UserType.REAL === tenant.type ? activeOrReal : notActiveOrDemo,
-          }}
-        >
-          {UserType.REAL === tenant.type ? "Real" : "Demo"}
-        </Grid>
-        <Grid item md={1}>
-          {tenant.code}
-        </Grid>
-        <Grid item md={9}>
-          {tenant.description}
-        </Grid>
-        <Grid item md={1}>
-          more
+        {isDescription && (
+          <Grid item md={12}>
+            {tenant.description}
+          </Grid>
+        )}
+        <Grid container md={12} sx={{ marginTop: "10px" }}>
+          <Grid item md={10} sm={10} xs={10}>
+            <Typography>Code: {tenant.code}</Typography>
+          </Grid>
+          {!isDescription && (
+            <Grid item md={2} sm={2} xs={2}>
+              <Button variant="text" onClick={redirectToProfile}>
+                More
+              </Button>
+            </Grid>
+          )}
         </Grid>
       </Grid>
     </Box>

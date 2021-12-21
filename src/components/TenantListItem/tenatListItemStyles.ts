@@ -6,12 +6,13 @@ export default makeStyles({
     marginTop: "16px",
     borderRadius: "20px",
     background: "#B8CDF8",
+    maxWidth: "350px",
   },
-  ACTIVE: {
-    background: "#01F4AB !important",
+  userInfo: {
+    display: "flex",
   },
-  NOT_ACTIVE: {
-    background: "#F35B04",
+  status: {
+    borderRadius: "5px",
+    textAlign: "center",
   },
-  statusBox: {},
 });

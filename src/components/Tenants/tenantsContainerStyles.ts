@@ -10,4 +10,10 @@ export default makeStyles({
     marginTop: "20px",
     padding: "0 20px",
   },
+  tenantsWrapper: {
+    width: "100%",
+    display: "flex",
+    flexWrap: "wrap",
+    justifyContent: "space-around",
+  },
 });
